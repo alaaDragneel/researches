@@ -18,6 +18,8 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/posts', 'PostController@index')->name('posts');
+Route::get('/posts/search', 'PostController@search')->name('posts.search');
 
 Route::get('/authenticate-logs', 'AuthenticateLogsController@authenticateLogs');
 Route::get('/authenticate-logs-last-login-at', 'AuthenticateLogsController@lastLoginAt');
