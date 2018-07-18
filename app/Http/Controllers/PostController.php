@@ -5,6 +5,8 @@ namespace MixCode\Http\Controllers;
 use Illuminate\Http\Request;
 use MixCode\Post;
 use Carbon\Carbon;
+use MixCode\Notifications\NewPost;
+use Rap2hpoutre\FastExcel\FastExcel;
 
 class PostController extends Controller
 {
@@ -20,7 +22,7 @@ class PostController extends Controller
         flash('Hallo')->error();
         flash('Hallo')->warning()->important();
         flash('Hallo')->important();
-        
+
         return view('posts', ['posts' => Post::all()]);
     }
 
@@ -61,6 +63,8 @@ class PostController extends Controller
     {
         $post = Post::create(request(['title', 'body']));
         
+        auth()->user()->notify(new NewPost($post));
+
         flash('Your Post Created Successfully')->success()->important();
 
         return redirect()->route('posts.show', $post);
@@ -80,4 +84,13 @@ class PostController extends Controller
         return redirect()->route('posts.index');
     }
 
+    public function download($type)
+    {
+        $posts = Post::latest()->limit(10)->get();
+        
+        (new FastExcel($posts))->download("posts.{$type}");
+
+        return back();
+        
+    }
 }

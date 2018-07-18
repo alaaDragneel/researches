@@ -20,6 +20,7 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/posts/search', 'PostController@search')->name('posts.search');
 Route::get('/posts/carbon', 'PostController@carbon');
+Route::get('/posts/download/{type}', 'PostController@download')->name('posts.download');
 Route::resource('/posts', 'PostController');
 
 Route::get('/authenticate-logs', 'AuthenticateLogsController@authenticateLogs');

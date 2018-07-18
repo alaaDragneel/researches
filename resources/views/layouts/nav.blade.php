@@ -16,8 +16,25 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('posts.create') }}">{{ __('Create Post') }}</a>
                 </li>
-            </ul>
 
+                <li class="nav-item dropdown">
+                    <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                        Export Posts <span class="caret"></span>
+                    </a>
+
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="{{ route('posts.download', ['type' => 'xlsx' ]) }}">
+                            {{ __('Export As Xlsx') }}
+                        </a>
+                        <a class="dropdown-item" href="{{ route('posts.download', ['type' => 'ods' ]) }}">
+                            {{ __('Export As Ods') }}
+                        </a>
+                        <a class="dropdown-item" href="{{ route('posts.download', ['type' => 'csv' ]) }}">
+                            {{ __('Export As Csv') }}
+                        </a>
+                    </div>
+                </li>
+            </ul>
             <!-- Right Side Of Navbar -->
             <ul class="navbar-nav ml-auto">
                 <!-- Authentication Links -->
