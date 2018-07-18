@@ -20,6 +20,7 @@ class PostController extends Controller
         flash('Hallo')->error();
         flash('Hallo')->warning()->important();
         flash('Hallo')->important();
+        
         return view('posts', ['posts' => Post::all()]);
     }
 
@@ -51,8 +52,32 @@ class PostController extends Controller
         return $data;
     }
 
+    public function create()
+    {
+        return view('create');
+    }
+
+    public function store()
+    {
+        $post = Post::create(request(['title', 'body']));
+        
+        flash('Your Post Created Successfully')->success()->important();
+
+        return redirect()->route('posts.show', $post);
+    }
+
     public function show(Post $post)
     {
-        return $post;
+        return view('show', compact('post'));
     }
+
+    public function destroy(Post $post)
+    {
+        $post->delete();
+
+        flash('Your Post Deleted Successfully')->success()->important();
+
+        return redirect()->route('posts.index');
+    }
+
 }

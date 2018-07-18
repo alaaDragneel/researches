@@ -11,6 +11,7 @@
         "laravel/framework": "5.6.*",
         "laravel/scout": "^4.0",
         "laravel/tinker": "^1.0",
+        "spatie/laravel-activitylog": "^2.7",
         "yab/laravel-scout-mysql-driver": "^2.0",
         "yadahan/laravel-authentication-log": "^1.1"
     },
