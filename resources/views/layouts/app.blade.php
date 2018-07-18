@@ -23,8 +23,10 @@
 <body>
     <div id="app">
         @include('layouts.nav')
+        @include('flash::message')
 
         <main class="py-4">
+            
             @yield('content')
         </main>
     </div>

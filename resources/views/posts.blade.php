@@ -6,7 +6,6 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">Posts Page</div>
-
                 <div class="card-body">
                     <form action="{{ route('posts.search') }}" method="get">
                        <div class="form-group">
@@ -18,6 +17,18 @@
                     </form>
                 </div>
             </div>
+            
+            @foreach($posts as $post)
+                <br/>    
+                <div class="card">
+                    <div class="card-header">
+                        <a href="{{ route('posts.show', $post) }}">{{ $post->title }}</a>    
+                    </div>
+                    <div class="card-body">
+                        {{ $post->body }}
+                    </div>
+                </div>
+            @endforeach
         </div>
     </div>
 </div>
