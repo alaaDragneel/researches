@@ -13,8 +13,13 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('posts.index') }}">{{ __('Posts') }}</a>
                 </li>                
+
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('posts.create') }}">{{ __('Create Post') }}</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('posts.import') }}">{{ __('Import Post') }}</a>
                 </li>
 
                 <li class="nav-item dropdown">

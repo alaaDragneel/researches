@@ -18,10 +18,19 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/posts/search', 'PostController@search')->name('posts.search');
-Route::get('/posts/carbon', 'PostController@carbon');
-Route::get('/posts/download/{type}', 'PostController@download')->name('posts.download');
-Route::resource('/posts', 'PostController');
+
+Route::get('/posts/search', 'PostsController@search')->name('posts.search');
+
+Route::get('/posts/carbon', 'PostsController@carbon');
+
+Route::get('/posts/download/{type}', 'PostsController@download')->name('posts.download');
+
+
+Route::get('/posts/import', 'PostsController@import')->name('posts.import');
+Route::post('/posts/import/parse', 'PostsController@importParse')->name('posts.import.parse');
+Route::post('/posts/import/process', 'PostsController@importProcess')->name('posts.import.process');
+
+Route::resource('/posts', 'PostsController');
 
 Route::get('/authenticate-logs', 'AuthenticateLogsController@authenticateLogs');
 Route::get('/authenticate-logs-last-login-at', 'AuthenticateLogsController@lastLoginAt');

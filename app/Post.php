@@ -11,14 +11,41 @@ class Post extends Model
 {
     use Searchable, LogsActivity;
 
-    protected $fillable = ['title', 'body'];
+    /**
+     * @{inheritDocs}
+     */
+    protected $fillable = ['title', 'body', 'archive', 'user_id'];
 
     protected static $logFillable = true;
+
+    /**
+     * @{inheritDocs}
+     */
+    protected $casts = ['archive' => 'boolean'];
 
     public function getDescriptionForEvent(string $eventName) : string
     {
         return "This Model Has Been {$eventName}";
     }
+
+    public function archive()
+    {
+        if ($this->isArchive()) return;
+        $this->update(['archive' => true]);        
+    }
+
+    
+    public function unArchive()
+    {
+        if (! $this->isArchive()) return;
+        $this->update(['archive' => false]);        
+    }
+
+    public function isArchive()
+    {
+        return $this->archive;
+    }
+
 
     // protected static $logAttributes = ['title', 'body'];
     // protected static $logAttributes = ['*'];

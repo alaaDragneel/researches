@@ -19,6 +19,10 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <style>
+        .mr-1 { margin-right: 1em; }
+        [v-cloak] { display: none; }
+    </style>
 </head>
 <body>
     <div id="app">

@@ -7,8 +7,10 @@ use MixCode\Post;
 use Carbon\Carbon;
 use MixCode\Notifications\NewPost;
 use Rap2hpoutre\FastExcel\FastExcel;
+use MixCode\Http\Requests\CsvImportRequest;
+use MixCode\CsvData;
 
-class PostController extends Controller
+class PostsController extends Controller
 {
     public function __construct()
     {
@@ -61,7 +63,9 @@ class PostController extends Controller
 
     public function store()
     {
-        $post = Post::create(request(['title', 'body']));
+        $request = request(['title', 'body']) + auth()->id();
+
+        $post = Post::create($request);
         
         auth()->user()->notify(new NewPost($post));
 
@@ -92,5 +96,63 @@ class PostController extends Controller
 
         return back();
         
+    }
+
+    public function archive(Post $post)
+    {
+        $post->archive();
+
+        return response()->json('Post Archived', 200);
+    }
+
+    public function unArchive(Post $post)
+    {
+        $post->unArchive();
+
+        return response()->json('Post UnArchived', 200);
+    }
+
+    public function import()
+    {
+        return view('import');
+    }
+
+    public function importParse(CsvImportRequest $request)
+    {
+        $path = $request->file('csv_file')->getRealPath();
+        
+        $data = array_map('str_getcsv', file($path));
+
+        // Store The Csv File Data In Table  Because We Return Only Two Records
+        $csv_data_file = CsvData::create([
+            'csv_filename' => $request->file('csv_file')->getClientOriginalName(),
+            'csv_header' => $request->has('header'),
+            'csv_data' => json_encode($data)
+        ]);
+
+
+        // I’m doing the slicing of only first two lines cause they are enough to show, 
+        // so user would understand which value is in which column. No need to show whole CSV here.
+        $csv_data = array_slice($data, 0, 2);
+
+        return view('import_fields', compact('csv_data', 'csv_data_file'));
+    }
+
+    public function importProcess(Request $request)
+    {
+        $data = CsvData::find($request->csv_data_file_id);
+        $csv_data = json_decode($data->csv_data, true);
+        
+        foreach ($csv_data as $row) {
+            $post = new Post();
+            foreach (config('app.db_fields') as $index => $field) {
+                if ($field == 'archive') continue;
+                $post->$field = $row[$request->fields[$index]];
+            }
+            $post->user_id = auth()->id();
+            $post->save();
+        }
+
+        return redirect()->route('posts.index');
     }
 }

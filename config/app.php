@@ -94,7 +94,13 @@ return [
     'fallback_locale' => 'en',
 
     'editor' => 'vscode',
-    
+ 
+    'db_fields' => [
+        'title',
+        'body',
+        'archive'
+    ],
+
     /*
     |--------------------------------------------------------------------------
     | Encryption Key

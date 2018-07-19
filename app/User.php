@@ -5,10 +5,11 @@ namespace MixCode;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Yadahan\AuthenticationLog\AuthenticationLogable;
+use Laravel\Passport\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use Notifiable, AuthenticationLogable;
+    use Notifiable, AuthenticationLogable, HasApiTokens;
 
     /**
      * The attributes that are mass assignable.
