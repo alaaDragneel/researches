@@ -32,6 +32,8 @@ Route::post('/posts/import/process', 'PostsController@importProcess')->name('pos
 
 Route::resource('/posts', 'PostsController');
 
+Route::apiResource('posts.comments', 'CommentController');
+
 Route::get('/authenticate-logs', 'AuthenticateLogsController@authenticateLogs');
 Route::get('/authenticate-logs-last-login-at', 'AuthenticateLogsController@lastLoginAt');
 Route::get('/authenticate-logs-previous-login-at', 'AuthenticateLogsController@previousLoginAt');
