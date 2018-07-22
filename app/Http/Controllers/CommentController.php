@@ -47,6 +47,7 @@ class CommentController extends Controller
      */
     public function update(Request $request, $post, Comment $comment)
     {
+        dd($request->user()->token());
         $data = $request->validate([
             'body' => 'required|string'
         ]);
