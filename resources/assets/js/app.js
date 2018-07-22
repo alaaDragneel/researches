@@ -16,6 +16,7 @@ window.Vue = require('vue');
  */
 
 Vue.component('archive-button', require('./components/ArchiveButton.vue'));
+Vue.component('comments-manager', require('./components/CommentsManager.vue'));
 
 const app = new Vue({
     el: '#app'

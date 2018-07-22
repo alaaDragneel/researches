@@ -21,6 +21,8 @@
                     {{ $post->body }}
                 </div>
             </div>
+
+            <comments-manager :user="{{ auth()->user() }}"></comments-manager>
         </div>
     </div>
 </div>
