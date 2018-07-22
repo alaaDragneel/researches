@@ -12,6 +12,7 @@
         "laravel/passport": "^6.0",
         "laravel/scout": "^4.0",
         "laravel/tinker": "^1.0",
+        "maatwebsite/excel": "~2.1.0",
         "rap2hpoutre/fast-excel": "^0.6.0",
         "spatie/laravel-activitylog": "^2.7",
         "yab/laravel-scout-mysql-driver": "^2.0",

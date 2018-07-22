@@ -36,3 +36,6 @@ Route::get('/authenticate-logs', 'AuthenticateLogsController@authenticateLogs');
 Route::get('/authenticate-logs-last-login-at', 'AuthenticateLogsController@lastLoginAt');
 Route::get('/authenticate-logs-previous-login-at', 'AuthenticateLogsController@previousLoginAt');
 Route::get('/authenticate-logs-last-login-ip', 'AuthenticateLogsController@lastLoginIp');
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

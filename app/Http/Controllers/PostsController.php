@@ -9,6 +9,7 @@ use MixCode\Notifications\NewPost;
 use Rap2hpoutre\FastExcel\FastExcel;
 use MixCode\Http\Requests\CsvImportRequest;
 use MixCode\CsvData;
+use Excel;
 
 class PostsController extends Controller
 {
@@ -63,7 +64,7 @@ class PostsController extends Controller
 
     public function store()
     {
-        $request = request(['title', 'body']) + auth()->id();
+        $request = request(['title', 'body']) + ['user_id' => auth()->id()];
 
         $post = Post::create($request);
         
@@ -120,22 +121,39 @@ class PostsController extends Controller
     public function importParse(CsvImportRequest $request)
     {
         $path = $request->file('csv_file')->getRealPath();
-        
-        $data = array_map('str_getcsv', file($path));
+       
+       if ($request->has('header')) {
+            $data = Excel::load($path, function($reader) {})->get()->toArray();
+        } else {
+            $data = array_map('str_getcsv', file($path));
+        }
 
-        // Store The Csv File Data In Table  Because We Return Only Two Records
-        $csv_data_file = CsvData::create([
-            'csv_filename' => $request->file('csv_file')->getClientOriginalName(),
-            'csv_header' => $request->has('header'),
-            'csv_data' => json_encode($data)
-        ]);
+        if (count($data) > 0) {
+            if ($request->has('header')) {
+                $csv_header_fields = [];
+                foreach ($data[0] as $key => $value) {
+                    $csv_header_fields[] = $key; 
+                }
+            }
+
+            // Store The Csv File Data In Table  Because We Return Only Two Records
+            $csv_data_file = CsvData::create([
+                'csv_filename' => $request->file('csv_file')->getClientOriginalName(),
+                'csv_header' => $request->has('header'),
+                'csv_data' => json_encode($data)
+            ]);
 
 
-        // I’m doing the slicing of only first two lines cause they are enough to show, 
-        // so user would understand which value is in which column. No need to show whole CSV here.
-        $csv_data = array_slice($data, 0, 2);
+            // I’m doing the slicing of only first two lines cause they are enough to show, 
+            // so user would understand which value is in which column. No need to show whole CSV here.
+            $csv_data = array_slice($data, 0, 2);
+            
+        } else {
+            return back();
+        }
 
-        return view('import_fields', compact('csv_data', 'csv_data_file'));
+
+        return view('import_fields', compact('csv_header_fields', 'csv_data', 'csv_data_file'));
     }
 
     public function importProcess(Request $request)
@@ -146,8 +164,18 @@ class PostsController extends Controller
         foreach ($csv_data as $row) {
             $post = new Post();
             foreach (config('app.db_fields') as $index => $field) {
-                if ($field == 'archive') continue;
-                $post->$field = $row[$request->fields[$index]];
+                // if ($field == 'archive') continue;
+                // $row is array with 0, 1, 2
+                // $reuqest->fields is array that we choosed with 1, 0, 2
+                // We get the fiedls index from out config for example we will take the title that will 0 key index in the array
+                // get $reuqest->fields[index == 0] then we will get the second element in this array that will equal 0
+                // $row[$request->fields[$index === 0] === 0] then we will get the first element in this array that will equal 0
+                // same as we has header the difrent we will work with assossiated array insted of indexed array 
+                if ($data->csv_header) {
+                    $post->$field = $row[$request->fields[$field]];
+                } else {
+                    $post->$field = $row[$request->fields[$index]];
+                }
             }
             $post->user_id = auth()->id();
             $post->save();
