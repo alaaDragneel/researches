@@ -14,6 +14,7 @@
         "laravel/tinker": "^1.0",
         "rap2hpoutre/fast-excel": "^0.6.0",
         "spatie/laravel-activitylog": "^2.7",
+        "swooletw/laravel-swoole": "^2.4",
         "yab/laravel-scout-mysql-driver": "^2.0",
         "yadahan/laravel-authentication-log": "^1.1"
     },

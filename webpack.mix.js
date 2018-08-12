@@ -1,5 +1,8 @@
 let mix = require('laravel-mix');
-
+let Notifications = require('pretty-mix-notifications');
+   
+mix.extend('prettyNotifications', new Notifications);
+   
 /*
  |--------------------------------------------------------------------------
  | Mix Asset Management
@@ -12,4 +15,5 @@ let mix = require('laravel-mix');
  */
 
 mix.js('resources/assets/js/app.js', 'public/js')
-   .sass('resources/assets/sass/app.scss', 'public/css');
+   .sass('resources/assets/sass/app.scss', 'public/css')
+   .prettyNotifications();
