@@ -17,7 +17,11 @@
         "laravel-mix": "^2.0",
         "lodash": "^4.17.4",
         "popper.js": "^1.12",
+<<<<<<< HEAD
         "pretty-mix-notifications": "^1.1.3",
+=======
+        "tailwindcss": "^0.6.4",
+>>>>>>> 25412685b40411cb709bfc628dacea888f250a2b
         "vue": "^2.5.7"
     }
 }

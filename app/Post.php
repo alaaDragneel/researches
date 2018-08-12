@@ -46,6 +46,10 @@ class Post extends Model
         return $this->archive;
     }
 
+    public function comments()
+    {
+        return $this->hasMany(Comment::class, 'post_id');
+    }
 
     // protected static $logAttributes = ['title', 'body'];
     // protected static $logAttributes = ['*'];

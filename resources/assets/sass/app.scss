@@ -1,4 +1,3 @@
-
 // Fonts
 @import url("https://fonts.googleapis.com/css?family=Raleway:300,400,600");
 
@@ -12,3 +11,14 @@
   background-color: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
 }
+
+@tailwind preflight;
+@tailwind components;
+
+.comment-input {
+	@apply .tw-bg-grey-lighter .tw-rounded .tw-leading-normal .tw-resize-none .tw-w-full .tw-py-2 .tw-px-3;
+}
+
+
+
+@tailwind utilities;
